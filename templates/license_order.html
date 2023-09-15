@@ -1,0 +1,502 @@
+{%load static%}
+<!doctype html>
+<html lang="en" class="">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="style1.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" type="text/css" href="animate.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+
+<script src="wow.min.js"></script>
+
+<script>
+    function getUniqueValuesFromColumn() {
+
+var unique_col_values_dict = {}
+
+allFilters = document.querySelectorAll(".filter")
+allFilters.forEach((filter_i) => {
+    col_index = filter_i.parentElement.getAttribute("col-index");
+  
+    const rows = document.querySelectorAll("#licenseTable > tbody > tr")
+
+    rows.forEach((row) => {
+        cell_value = row.querySelector("td:nth-child("+col_index+")").innerHTML;
+        
+        if (col_index in unique_col_values_dict) {
+
+            if (unique_col_values_dict[col_index].includes(cell_value)) {
+                
+            } else {
+                unique_col_values_dict[col_index].push(cell_value)
+          
+
+            }
+
+
+        } else {
+            unique_col_values_dict[col_index] = new Array(cell_value)
+        }
+    });
+
+    
+});
+
+for(i in unique_col_values_dict) {
+    alert("Column index : " + i + " has Unique values : \n" + unique_col_values_dict[i]);
+}
+
+updateSelectOptions(unique_col_values_dict)
+
+};
+
+function updateSelectOptions(unique_col_values_dict) {
+allFilters = document.querySelectorAll(".filter")
+
+allFilters.forEach((filter_i) => {
+    col_index = filter_i.parentElement.getAttribute('col-index')
+
+    unique_col_values_dict[col_index].forEach((i) => {
+        filter_i.innerHTML = filter_i.innerHTML + `\n<option value="${i}">${i}</option>`
+    });
+
+});
+};
+        
+function filter_rows() {
+allFilters = document.querySelectorAll(".filter")
+var filter_value_dict = {}
+
+allFilters.forEach((filter_i) => {
+    col_index = filter_i.parentElement.getAttribute('col-index')
+
+    value = filter_i.value
+    if (value != "all") {
+        filter_value_dict[col_index] = value;
+    }
+});
+
+var col_cell_value_dict = {};
+
+const rows = document.querySelectorAll("#licenseTable tbody tr");
+rows.forEach((row) => {
+    var display_row = true;
+
+    allFilters.forEach((filter_i) => {
+        col_index = filter_i.parentElement.getAttribute('col-index')
+        col_cell_value_dict[col_index] = row.querySelector("td:nth-child(" + col_index+ ")").innerHTML
+    })
+
+    for (var col_i in filter_value_dict) {
+        filter_value = filter_value_dict[col_i]
+        row_cell_value = col_cell_value_dict[col_i]
+        
+        if (row_cell_value.indexOf(filter_value) == -1 && filter_value != "all") {
+            display_row = false;
+            break;
+        }
+
+
+    }
+
+    if (display_row == true) {
+        row.style.display = "table-row"
+
+    } else {
+        row.style.display = "none"
+
+    }
+
+
+
+
+
+})
+
+}
+</script>
+
+<!--      css     -->
+      <style>
+/* Optional CSS styles */
+input[type="text"] {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th {
+    background-color:#ff1160;
+    color: white;
+}
+
+
+      </style>
+
+    <title>SAAS ORDER</title>
+  
+  </head>
+  <body>
+    <section class="page-container container mt-5 pt-5">
+      <h1 class="mb-5">License order list</h1>
+      {% for items in data %}
+         {{items}}
+         {% endfor %}
+      
+    <div class="vendr-sec1 wow fadeInUp animated">
+        <input type="text" id="subscriptionIdInput" placeholder="Subscription ID">
+        <input type="text" id="domainNameInput" placeholder="Domain Name">
+        <input type="text" id="productNameInput" placeholder="Product Name">
+        <button id="filterButton">Show</button>
+    </div>
+      <div>
+    <table id="licenseTable">
+        <thead >
+            
+                <th col-index=1>Start Date</th>
+                <th col-index=2>Subscription ID</th>
+                <th col-index=3>Commitment or Billing</th>
+                <th col-index=4>Product Name</th>
+                <th col-index=5>Domain Name</th>
+                <th col-index=6>Qty</th>
+                <th col-index=7>License Type
+                    <select class="filter" data-column="License Type" onchange="filter_rows()">
+                    <option value="">All</option>
+                     </select></th>
+                <th col-index=8>Vendor Name
+                    <select class="filter" data-column="Vendor Name" onchange="filter_rows()">
+                    <option value="">ALL</option>
+                    </select>
+                </th>
+                <th col-index=9>Current Active Qty</th>
+                <th col-index=10>ERP
+                    <select class="filter" data-column="ERP" onchange="filter_rows()">
+                    <option value="">All</option>
+                    </select>
+                </th>
+                <th col-index=11>Customer</th>
+                <th col-index=12>Qut. No</th>
+                <th col-index=13>Invoice No</th>
+                <th col-index=14>Create Sales Order (if not already created)</th>
+            
+        </thead>
+        <tbody >
+<!--             
+                <tr>
+                    <td>1/1/2023</td>
+                    <td>111bJHKL</td>
+                    <td>YealryCommitment & Monthly billing</td>
+                    <td>IN - Google</td>
+                    <td>avis</td>
+                    <td>15</td>
+                    <td>Additional</td>
+                    <td>Crayon</td>
+                    <td>2</td>
+                    <td>Febno IND</td>
+                    <td>Deam</td>
+                    <td>2</td>
+                    <td>1120</td>
+                    <td>Cancelled</td>
+                    <td><button class="delete-button">Delete</button></td>
+                    <td><button class="edit-button">Edit</button></td> 
+
+                </tr>
+                <tr>
+                    <td>1/1/2023</td>
+                    <td>Nil</td>
+                    <td>Monthly Commitment & Monthly billing</td>
+                    <td>AE - Google</td>
+                    <td>a-AOEI</td>
+                    <td>10</td>
+                    <td>New</td>
+                    <td>Bps</td>
+                    <td>3</td>
+                    <td>Febno Uae</td>
+                    <td>Aarnav</td>
+                    <td>11</td>
+                    <td>113-JT</td>
+                    <td>Create</td>
+                    <td><button class="delete-button">Delete</button></td>
+                    <td><button class="edit-button">Edit</button></td>
+                </tr> -->
+                {% for item in data %}
+                <tr>
+                    <td>{{item.start_date}}</td>
+                    <td>{{item.subscription_id }}</td>
+                    <td>{{item.commitment_or_billing }}</td>
+                    <td>{{item.product_name }}</td>
+                    <td>{{item.domain_name }}</td>
+                    <td>{{item.qty }}</td>
+                    <td>{{item.license_type}}</td>
+                    <td>{{item.vendor_name }}</td>
+                    <td>{{item.current_active_qty }}</td>
+                    <td>{{item.erp }}e</td>
+                    <td>{{item.customer }}</td>
+                    <td>{{item.qut_no }}</td>
+                    <td>{{item.invoice_no }}</td>
+                    <td>{{item.create_sales_order }}</td>
+                    <!-- <td><button class="delete-button">Delete</button></td>
+                    <td id="save"><button class="edit-button">Edit</button></td> -->
+                    <td>
+                        <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                    
+                </tr>
+
+                {% endfor %}
+                
+        </tbody>
+    </table>
+      </div>
+    </section>
+
+    <!-- #Modal for Editor -->
+    {% for item in data %}
+
+    <div id="editEmployeeModal-{{forloop.counter}}" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="/update/{{item.id}}" method="post">
+                    {% csrf_token %}
+					<div class="modal-header">						
+						<h4 class="modal-title">Edit Employee</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<div class="form-group">
+							<label>Start Date</label>
+							<input  name="start_date" value="{{item.start_date}}" type="date" class="form-control" required>
+						</div>
+                        <div class="form-group">
+							<label>Subscription ID</label>
+							<input  name="subscription_id" value="{{item.subscription_id}}" type="text" class="form-control" required>
+						</div>
+                        <div class="form-group">
+							<label>Commitment or Billing </label>
+							<input name="commitment_or_billing" value= "{{item.commitment_or_billing}}" type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Product Name</label>
+							<input name="product_name" value="{{item.product_name}}" type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Domain Name</label>
+							<input name="domain_name" value="{{item.domain_name}}" type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Qty</label>
+							<input name="qty" value="{{item.qty}}" type="text" class="form-control" required>
+						</div>		
+                        <div class="form-group">
+							<label>License Type</label>
+							<input name="license_type" value="{{item.license_type}}" type="text" class="form-control" required>
+						</div>	
+                        <div class="form-group">
+							<label>Vendor Name</label>
+							<input name="vendor_name" value="{{item.vendor_name}}" type="text" class="form-control" required>
+						</div>			
+                        <div class="form-group">
+							<label>Current Active Qty</label>
+							<input name="current_active_qty" value="{{item.current_active_qty}}" type="text" class="form-control" required>
+						</div>	
+                        <div class="form-group">
+							<label>ERP</label>
+							<input name="erp" value="{{item.erp}}" type="text" class="form-control" required>
+						</div>	
+                        <div class="form-group">
+							<label>Customer</label>
+							<input name="customer" value="{{item.customer}}" type="text" class="form-control" required>
+						</div>	
+                        <div class="form-group">
+							<label>Qut No</label>
+							<input name="qut_no" value="{{item.qut_no}}" type="text" class="form-control" required>
+						</div>
+                        <div class="form-group">
+							<label>Invoice No</label>
+							<input name="invoice_no" value="{{item.invoice_no}}" type="text" class="form-control" required>
+						</div>
+                        <div class="form-group">
+							<label>Create Sales</label>
+							<input name="create_sales_order" value="{{item.create_sales_order}}" type="text" class="form-control" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-info" value="Update">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+    {% endfor  %}
+  <!--.......................................together delete and search-filter........................................................................-->
+<!--    <script>-->
+<!--        const filterButton = document.getElementById("filterButton");-->
+<!--        const subscriptionIdInput = document.getElementById("subscriptionIdInput");-->
+<!--        const productNameInput = document.getElementById("productNameInput");-->
+<!--        const domainNameInput = document.getElementById("domainNameInput");-->
+<!--        const licenseTable = document.getElementById("licenseTable");-->
+<!--        const rows = licenseTable.querySelectorAll("tbody tr");-->
+
+<!--        filterButton.addEventListener("click", applyFilter);-->
+
+<!--        function applyFilter() {-->
+<!--            const subscriptionIdFilter = subscriptionIdInput.value.toLowerCase();-->
+<!--            const productNameFilter = productNameInput.value.toLowerCase();-->
+<!--            const domainNameFilter = domainNameInput.value.toLowerCase();-->
+
+<!--            rows.forEach((row) => {-->
+<!--                const subscriptionIdCell = row.cells[1].textContent.toLowerCase();-->
+<!--                const productNameCell = row.cells[3].textContent.toLowerCase();-->
+<!--                const domainNameCell = row.cells[4].textContent.toLowerCase();-->
+
+<!--                if (-->
+<!--                    subscriptionIdCell.includes(subscriptionIdFilter) &&-->
+<!--                    productNameCell.includes(productNameFilter) &&-->
+<!--                    domainNameCell.includes(domainNameFilter)-->
+<!--                ) {-->
+<!--                    row.style.display = "";-->
+<!--                } else {-->
+<!--                    row.style.display = "none";-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--        const deleteButtons = document.querySelectorAll(".delete-button");-->
+
+<!--        deleteButtons.forEach((button) => {-->
+<!--            button.addEventListener("click", deleteRow);-->
+<!--        });-->
+
+<!--        function deleteRow(event) {-->
+<!--            const row = event.target.closest("tr");-->
+<!--            row.remove();-->
+<!--        }-->
+<!--    </script>-->
+
+
+<!--   ............edit...........-->
+<script>
+    window.onload = () => {
+            console.log(document.querySelector("#licenseTable > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
+        };
+
+        getUniqueValuesFromColumn()
+
+        
+        
+    const tableBody = document.querySelector("tbody");
+
+    // Function to toggle between view and edit modes for a row
+    function toggleEditViewMode(row) {
+        const cells = row.cells;
+        for (let i = 1; i < cells.length - 2; i++) {
+            const cell = cells[i];
+            const currentValue = cell.textContent;
+            if (!cell.classList.contains("edit-mode")) {
+                // Enter edit mode
+                cell.innerHTML = `<input type="text" value="${currentValue}">`;
+                cell.classList.add("edit-mode");
+            } else {
+                // Exit edit mode
+                const input = cell.querySelector("input");
+                const newValue = input.value;
+                cell.textContent = newValue;
+                cell.classList.remove("edit-mode");
+            }
+        }
+    }
+
+    // Function to update data on the server
+    async function updateData(row) {
+        const cells = row.cells;
+        const rowData = {
+            // Assuming you have unique identifiers like order ID
+            // Replace these with actual data attributes or IDs
+            orderId: row.getAttribute("data-order-id"),
+            columnName: cells[0].textContent, // Change to the correct column name
+            // Add other columns as needed
+        };
+
+        try {
+            const response = await fetch('/update-data-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(rowData),
+            });
+
+            if (response.ok) {
+
+                // Data updated successfully
+                console.log('Data updated:', rowData);
+              
+                
+            } else {
+                // Handle error
+                console.error('Failed to update data');
+            }
+        } catch (error) {
+            // Handle network error
+            console.error('Network error:', error);
+        }
+    }
+
+    // Event listener for the "Edit" button
+    tableBody.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target.classList.contains("edit-button")) {
+            const row = target.closest("tr");
+            toggleEditViewMode(row);
+            ;
+            target.textContent = "Save";
+            target.classList.remove("edit-button");
+            target.classList.add("save-button");
+        } else if (target.classList.contains("save-button")) {
+            const row = target.closest("tr");
+            updateData(row);
+            toggleEditViewMode(row);
+            target.textContent = "Edit";
+            target.classList.remove("save-button");
+            target.classList.add("edit-button");
+        }
+    });
+</script>
+
+
+  </body>
+</html>

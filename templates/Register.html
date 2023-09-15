@@ -1,0 +1,207 @@
+<!doctype html>
+{% load static %}
+<html lang="en" class="">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" type="text/css" href="animate.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <script src="wow.min.js"></script>
+
+   <script>
+   wow = new WOW(
+     {
+       animateClass: 'animated',
+       offset:       100,
+       callback:     function(box) {
+         console.log("WOW: animating <" + box.tagName.toLowerCase() + ">")
+       }
+     }
+   );
+   wow.init();
+ 
+ </script>
+    <title>SAAS ORDER</title>
+  </head>
+  <body>
+    <header>
+      <div class="container py-4">
+        <div class="row heade-row">
+          <div class="col-md-2 col-sm-auto col-auto head-logo ">
+            <a href="index.html"><img src="{% static 'image/logo.png' %}" class="fadeIn animated"></a>
+          </div>
+          <div class="col-md head-menu">
+            <ul class="fadeIn animated main-menuu">
+              <li><a href="Dashboard.html">Dashboard</a></li>
+              <li><a href="vendors.html">vendors</a>
+                  <ul>
+                    <li><a href="">Bloomberg empowerment event</a></li>
+                    <li><a href="">Google cloud</a>
+                      <ul>
+                        <li><a href="">Sub menu 1</a></li>
+                        <li><a href="">Sub menu 2</a></li>
+                        <li><a href="">Sub menu 3</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+              </li>
+             
+              <li><a href="{% url 'Manage' %}">Manage</a></li>
+              <li><a href="{% url 'orders' %}">orders</a></li>
+              <li><a href="{% url 'Contact' %}">Contact</a></li>
+              <li><a href="{% url 'Logout' %}">Logout</a></li> 
+            </ul>
+          </div>
+          <div class="col-md-2 col-sm-auto col-auto head-nav">
+            <div class="nav-menu fadeIn animated">
+              <button class=" " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><img src="image/navs.png"></button>
+
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                  <div class="container">
+                    <div class="offcanvas-header">
+                      <h5 id="offcanvasRightLabel"></h5>
+                      
+                    </div>
+                    <div class="offcanvas-body">
+                      <button type="button" class=" text-reset" data-bs-dismiss="offcanvas" aria-label="Close"><i class="fa fa-close"></i></button>
+                      <ul>
+                        <li><a href="{% url 'Dashboard' %}">Dashboard</a></li>
+                        <li><a href="{% url 'vendors' %}">vendors</a></li>
+                        <li><a href="{% url 'Manage' %}">Manage</a></li>
+                        <li><a href="{% url 'orders' %}">orders</a></li>
+                        <li><a href="{% url 'Profile' %}">Profile</a></li>
+                        <li><a href="{% url 'Contact' %}">Contact</a></li>
+                        <li><a href="{% url 'Logout' %}">Logout</a></li> 
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+   
+       <section class="sec1">
+      <div class="container">
+        <h1 class="mb-5">Register</h1>
+      </div>
+    </section>
+    <section class="log-form pb-5 mb-5">
+      <div class="container">
+        <div class="log-block pb-5">
+          <form class="Reg-form log-form pt-4" method="" action="">
+            <p>Please enter your information below to create an account</p>  
+            <div class="row">
+              <div class="col-md-6  wow fadeInUp animated">
+                <input type="text" name="" placeholder="First name">
+              </div>
+              <div class="col-md-6  wow fadeInUp animated">
+                <input type="text" name="" placeholder="Last name">
+              </div>
+              <div class="col-md-12  wow fadeInUp animated">
+                <input type="text" name="" placeholder="User name">
+              </div>
+              <div class="col-md-12  wow fadeInUp animated">
+                <input type="email" name="" placeholder="E-mail address">
+              </div>
+              <div class="col-md-6  wow fadeInUp animated">
+                <input type="password" name="" placeholder="Password">
+              </div>
+              <div class="col-md-6  wow fadeInUp animated">
+                <input type="password" name="" placeholder="Password (again)">
+              </div> 
+              <div class="col-md-6  wow fadeInUp animated">
+                <select name="">
+                  <option>Select Your Country</option>
+                </select>
+              </div>
+              <div class="col-md-6  wow fadeInUp animated">
+                <input type="text" name="" placeholder="Postal code">
+              </div>
+              <div class="col-md-6  wow fadeInUp animated">
+                <select name="">
+                  <option>B2B Partner</option>
+                </select>
+              </div>
+              <div class="col-md-6  wow fadeInUp animated">
+                <input type="text" name="" placeholder="Phone number">
+              </div>
+              <div class="col-md-6  wow fadeInUp animated">
+                <input type="text" name="" placeholder="Organization name">
+              </div>
+              <div class="col-md-6  wow fadeInUp animated">
+                <input type="text" name="" placeholder="city">
+              </div>
+              <div class="col-md-12   wow fadeInUp animated">
+                <input type="text" name="" placeholder="VAT Number (Optional)">
+              </div>
+              <div class="col-md-12  wow fadeInUp animated">
+                <input type="submit" name="signup" value="Sign Up >>" class="signin-btn">
+              </div>
+            </div>    
+                
+                
+              
+                
+
+          </form>
+          <div class="login-links">
+            <a href="Login.html">Log in</a>
+          </div>
+        </div>
+          
+        
+      </div>      
+    </section>
+
+
+
+
+
+    <div class="container text-center my-5 pt-5 footer-img">
+      <img src="{% static 'image/footer.png' %}">
+    </div>
+
+    <footer class="my-5  wow fadeInUp animated">
+      <footer class="my-5  wow fadeInUp   animated" style="visibility: visible; animation-name: fadeInUp;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-auto foot-logo">
+      <div>
+            <a href="/"><img src="{% static 'image/1.png' %}"></a>
+            <p>© 2021 saasorder</p> 
+      </div>    
+      </div>
+          <div class="c-details col-md-auto c-footer-call">
+                <div class="c-det-call ">
+                  <a href="tel:+918848806212" class="" style="">+91 884-8806212<span>(India)</span></a><br>
+                  <a href="tel:+971544055999" class="" style="">+971 54 405 5999<span>(UAE)</span></a>
+                </div>
+                <div class="c-det-mail">
+                  <a href="mailto:info@saasorder.com" class="" style="">info@saasorder.com</a>
+                </div>
+              </div>
+          <div class="col-md"></div><div class="col-md-auto foot-company">
+            <p>Powered by <br>Febno Technologies</p><a href="https://www.febno.com" target="blank"><img src="image/logo3.png"></a>
+             
+          </div>
+        </div>
+      </div>
+      <!-- Option 1: Bootstrap Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  
+    

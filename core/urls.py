@@ -12,6 +12,7 @@ urlpatterns = [
     path('license/',views.license_order,name='home'),
     path('edit',views.Edit,name='edit'),
     path('update/<str:id>',views.Update,name="update"),
+    path('delete/<str:id>',views.Delete,name="delete"),
 
    
 ]

@@ -92,8 +92,12 @@ def Update(request,id):
     return render(request,'license_order.html')
 
 
-
-
-        
-
+def Delete(request,id):
+    data = LicenseOrder.objects.filter(id=id)
+    data.delete()
+    context = {
+        'data':data
+    }
+    
+    return redirect('home')
     

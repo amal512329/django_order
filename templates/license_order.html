@@ -148,24 +148,56 @@ input[type="text"] {
 
 
 
+
 table {
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
     width: 100%;
+    
+    /* margin: 30px 30 20px; */
+    /* border-collapse: collapse; */
+    text-align: center;
+    margin-left:-100px ;
+    border: 2px snow #6c57d4;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+    
+   
+table td{
+    font-size: 11px;
+    font-weight: 500px;
+    line-height: 0.9rem;
+}
+th, td {
+  padding: 6px ;
+  min-width: 87px;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.2rem;
+
+
+  /* margin-left: 20px; */
+  
+  
+}
+td:nth-child(5)
+{
+  color: green;
+}
+thead th{
+    
+	line-height: 1.8rem;
+	width: 13.75%;
+	
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #eee5e5;
 }
 
 th {
-    background-color:#ff1160;
-    color: rgb(27, 26, 26);
+    color: rgb(34, 29, 29);
+  background: rgb(72, 177, 226);
    
 }
 option{
@@ -173,21 +205,68 @@ option{
     
 }
 select{
-    font-weight: 100;
+    font-weight: 70;
+}
+section h1{
+    font-size: 18px;
+  font-family: Roboto;
+  line-height: 1.5em;
+  letter-spacing: 2px;
+  /* font-weight: 800; */
+  font-style: normal;
+  margin-top: -10px;
+ 
+  
+
+  color: rgb(78,96,115);
+
+}
+.vendr-sec1{
+    margin-bottom: 10px;
+}
+.vendr-sec1 input{
+   
+   /* font-size: 18px;
+    font-weight: 100; */
+    color: #4b00ff;
+    margin-bottom: 20px;
+    border: 1px solid #4b00ff;
+    -webkit-border-top-left-radius   : 25px;
+     -webkit-border-bottom-left-radius: 25px;
+     -moz-border-radius-topleft       : 25px;
+     -moz-border-radius-bottomleft    : 25px;
+     border-top-left-radius           : 25px;
+     border-bottom-left-radius        : 25px;
+     box-shadow                       : none;
+     border                           : none;
+     box-shadow                       : 2px 4px 6px rgba(0, 0, 0, 0.19);
+
+}
+
+.vendr-sec1 button{
+    background-color: transparent;
+	border-radius: 1.5em;
+
+	width: 7.5em;
+	height: 3em;
+	transition: width 0.3s ease-in-out;
 }
 
 
-      </style>
+
+
+</style>
 
     <title>SAAS ORDER</title>
   
   </head>
   <body>
     <section class="page-container container mt-5 pt-5">
-      <h1 class="mb-5">License order list</h1>
-      {% for items in data %}
-         {{items}}
-         {% endfor %}
+       
+            <h1 class="mb-5" >License order list</h1>
+        
+      
+      
       
     <div class="vendr-sec1 wow fadeInUp animated">
         <input type="text" id="subscriptionIdInput" placeholder="Subscription ID">
@@ -223,7 +302,12 @@ select{
                 <th col-index=11>Customer</th>
                 <th col-index=12>Qut. No</th>
                 <th col-index=13>Invoice No</th>
-                <th col-index=14>Create Sales Order (if not already created)</th>
+                <th col-index=14>Create Sales Order</th>
+                <th>
+                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><button type="button" data-func="dt-add" class="btn btn-success btn-xs dt-add">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true">Create</span>
+                    </button></a>
+                </th>
             
         </thead>
         <tbody >
@@ -281,8 +365,7 @@ select{
                     <td>{{item.qut_no }}</td>
                     <td>{{item.invoice_no }}</td>
                     <td>{{item.create_sales_order }}</td>
-                    <!-- <td><button class="delete-button">Delete</button></td>
-                    <td id="save"><button class="edit-button">Edit</button></td> -->
+        
                     <td>
                         <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                         <a href="#deleteEmployeeModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -296,11 +379,90 @@ select{
     </table>
       </div>
     </section>
+   
+<!-- 
+create order -->
+<div id="addEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{% url 'add' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">						
+                    <h4 class="modal-title">Add Employee</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">					
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input  name="start_date" value="{{item.start_date}}" type="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Subscription ID</label>
+                        <input  name="subscription_id" value="{{item.subscription_id}}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Commitment or Billing </label>
+                        <input name="commitment_or_billing" value= "{{item.commitment_or_billing}}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input name="product_name" value="{{item.product_name}}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Domain Name</label>
+                        <input name="domain_name" value="{{item.domain_name}}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Qty</label>
+                        <input name="qty" value="{{item.qty}}" type="text" class="form-control" required>
+                    </div>		
+                    <div class="form-group">
+                        <label>License Type</label>
+                        <input name="license_type" value="{{item.license_type}}" type="text" class="form-control" required>
+                    </div>	
+                    <div class="form-group">
+                        <label>Vendor Name</label>
+                        <input name="vendor_name" value="{{item.vendor_name}}" type="text" class="form-control" required>
+                    </div>			
+                    <div class="form-group">
+                        <label>Current Active Qty</label>
+                        <input name="current_active_qty" value="{{item.current_active_qty}}" type="text" class="form-control" required>
+                    </div>	
+                    <div class="form-group">
+                        <label>ERP</label>
+                        <input name="erp" value="{{item.erp}}" type="text" class="form-control" required>
+                    </div>	
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <input name="customer" value="{{item.customer}}" type="text" class="form-control" required>
+                    </div>	
+                    <div class="form-group">
+                        <label>Qut No</label>
+                        <input name="qut_no" value="{{item.qut_no}}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Invoice No</label>
+                        <input name="invoice_no" value="{{item.invoice_no}}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Create Sales</label>
+                        <input name="create_sales_order" value="{{item.create_sales_order}}" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-success" value="Add">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
     <!-- #Modal for Editor -->
-    {% for item in data %}
+{% for item in data %}
 
-    <div id="editEmployeeModal-{{forloop.counter}}" class="modal fade">
+ <div id="editEmployeeModal-{{forloop.counter}}" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form action="/update/{{item.id}}" method="post">
@@ -376,7 +538,7 @@ select{
 		</div>
 	</div>
 {% endfor %}
-    <!-- Delete Modal HTML -->
+ <!-- Delete Modal HTML -->
 
 {% for item in data %}
 	<div id="deleteEmployeeModal-{{forloop.counter}}" class="modal fade">
